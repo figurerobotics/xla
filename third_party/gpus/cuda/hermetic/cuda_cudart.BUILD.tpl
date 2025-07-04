@@ -40,7 +40,9 @@ cc_library(
     %{comment}}) + [
         %{comment}":cudart_shared_library",
     %{comment}],
-    %{comment}linkopts = cuda_rpath_flags("nvidia/cuda_runtime/lib"),
+    %{comment}linkopts = cuda_rpath_flags("nvidia/cuda_runtime/lib") + [
+        %{comment}"-Wl,-rpath,/usr/local/cuda-12.1/compat",
+    %{comment}],
     visibility = ["//visibility:public"],
 )
 
