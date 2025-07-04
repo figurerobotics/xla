@@ -29,13 +29,14 @@ use_repo(
     "cuda_curand",
     "cuda_cusolver",
     "cuda_cusparse",
+    "cuda_npp",
+    "cuda_nvcc",
     "cuda_nvdisasm",
     "cuda_nvjitlink",
+    "cuda_nvjpeg",
     "cuda_nvml",
     "cuda_nvtx",
-    "cuda_nvcc",
-    "cuda_npp",
-    "cuda_nvjpeg",
+    "cuda_profiler_api",
 )
 
 hermetic_cuda = use_extension("@xla//:extensions.bzl", "hermetic_cuda")

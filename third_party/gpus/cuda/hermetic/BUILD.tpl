@@ -66,7 +66,9 @@ cc_library(
             ":curand_headers",
             ":cupti_headers",
             ":nvml_headers",
-            ":nvjitlink_headers"],
+            ":nvjitlink_headers",
+            ":profiler_api_headers",
+    ],
 )
 
 # This target is needed by the `cuda_library` rule. We can't implicitly
@@ -160,6 +162,11 @@ alias(
 alias(
   name = "nvjitlink_headers",
   actual = "@cuda_nvjitlink//:headers",
+)
+
+alias(
+  name = "profiler_api_headers",
+  actual = "@cuda_profiler_api//:headers",
 )
 
 alias(
