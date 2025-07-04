@@ -86,7 +86,7 @@ def _get_main_lib_name(repository_ctx):
         )
 
 def _get_common_lib_name(repository_ctx):
-    return repository_ctx.name.split("_")[1].lower()
+    return repository_ctx.name.split("_")[-1].lower()
 
 def _get_libraries_by_redist_name_in_dir(repository_ctx):
     lib_dir_path = repository_ctx.path("lib")

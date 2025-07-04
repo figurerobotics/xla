@@ -76,8 +76,8 @@ cc_library(
         %{comment}"include/fatbinary_section.h",
         %{comment}"include/nvPTXCompiler.h",
     %{comment}]),
-    include_prefix = "third_party/gpus/cuda/include",
+    #include_prefix = "third_party/gpus/cuda/include",
     includes = ["include"],
-    strip_include_prefix = "include",
+    #strip_include_prefix = "include",
     visibility = ["@local_config_cuda//cuda:__pkg__"],
 )

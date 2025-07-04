@@ -136,7 +136,11 @@ filegroup(
 
 filegroup(
     name = "cuda_nvcc_files",
-    srcs = %{cuda_nvcc_files},
+    srcs = %{cuda_nvcc_files} + [
+        # FIXME: This is as ugly as can be
+        "@@toolchains_llvm~~llvm~llvm_toolchain//:cc-clang-x86_64-linux",
+        "@@_main~sysroots_ext~amd64_sysroot//:amd64_sysroot"
+    ],
 )
 
 filegroup(

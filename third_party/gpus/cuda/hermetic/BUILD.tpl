@@ -328,3 +328,23 @@ alias(
     name = "runtime_nvdisasm",
     actual = "@cuda_nvdisasm//:nvdisasm",
 )
+
+alias(
+    name = "nppi",
+    actual = "@cuda_npp//:nppi",
+)
+
+alias(
+    name = "npps",
+    actual = "@cuda_npp//:npps",
+)
+
+alias(
+    name = "nppc",
+    actual = "@cuda_npp//:nppc",
+)
+
+alias(
+    name = "nvjpeg",
+    actual = "@cuda_nvjpeg//:nvjpeg"
+)

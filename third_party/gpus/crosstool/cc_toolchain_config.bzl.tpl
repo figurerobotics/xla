@@ -345,6 +345,10 @@ def _features(cpu, compiler, ctx):
                                 iterate_over = "system_include_paths",
                             ),
                             _iterate_flag_group(
+                                flags = ["-isystem", "%{external_include_paths}"],
+                                iterate_over = "external_include_paths",
+                            ),
+                            _iterate_flag_group(
                                 flags = ["-F", "%{framework_include_paths}"],
                                 iterate_over = "framework_include_paths",
                             ),

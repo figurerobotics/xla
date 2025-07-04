@@ -1,0 +1,16 @@
+constraint_setting(
+    name = "cuda",
+    visibility = ["//visibility:public"],
+)
+
+constraint_value(
+    name = "nvcc",
+    constraint_setting = ":cuda",
+    visibility = ["//visibility:public"],
+)
+
+constraint_value(
+    name = "none",
+    constraint_setting = ":cuda",
+    visibility = ["//visibility:public"],
+)

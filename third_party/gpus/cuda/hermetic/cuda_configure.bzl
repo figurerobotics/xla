@@ -23,6 +23,9 @@
     environment variable is used by GCC compiler.
 """
 
+# Importing cuda_nvcc here create a dependency loop.
+#load("@cuda_nvcc//:version.bzl", _nvcc_version = "VERSION")
+
 load("@cuda_cccl//:version.bzl", _cccl_version = "VERSION")
 load("@cuda_cublas//:version.bzl", _cublas_version = "VERSION")
 load("@cuda_cudart//:version.bzl", _cudart_version = "VERSION")
@@ -32,9 +35,10 @@ load("@cuda_cupti//:version.bzl", _cupti_version = "VERSION")
 load("@cuda_curand//:version.bzl", _curand_version = "VERSION")
 load("@cuda_cusolver//:version.bzl", _cusolver_version = "VERSION")
 load("@cuda_cusparse//:version.bzl", _cusparse_version = "VERSION")
-load("@cuda_nvcc//:version.bzl", _nvcc_version = "VERSION")
+load("@cuda_npp//:version.bzl", _npp_version = "VERSION")
 load("@cuda_nvdisasm//:version.bzl", _nvdisasm_version = "VERSION")
 load("@cuda_nvjitlink//:version.bzl", _nvjitlink_version = "VERSION")
+load("@cuda_nvjpeg//:version.bzl", _nvjpeg_version = "VERSION")
 load("@cuda_nvml//:version.bzl", _nvml_version = "VERSION")
 load("@cuda_nvtx//:version.bzl", _nvtx_version = "VERSION")
 load(
@@ -48,8 +52,6 @@ load(
 )
 load(
     "//third_party/remote_config:common.bzl",
-    "execute",
-    "get_bash_bin",
     "get_cpu_value",
     "get_host_environ",
     "realpath",
@@ -66,6 +68,7 @@ def _find_cc(repository_ctx):
     ) or get_host_environ(repository_ctx, _CC)
     if cc_name_from_env:
         cc_name = cc_name_from_env
+    return cc_name
     cc = which(repository_ctx, cc_name, allow_failure = True)
     if not cc:
         # Use print instead of fail because fail interrupts execution,
@@ -129,12 +132,16 @@ def _is_clang(cc):
 # Function works only in pair with non-hermetic toolchain
 def _get_clang_major_version(repository_ctx, cc):
     """Gets the major version of the clang at `cc`"""
-    cmd = "echo __clang_major__ | \"%s\" -E -P -" % cc
-    result = execute(
-        repository_ctx,
-        [get_bash_bin(repository_ctx), "-c", cmd],
-    )
-    return result.stdout.strip()
+
+    # hacky, but we cannot call clang as it resides in another external repository
+    return "17"
+
+    #cmd = "echo __clang_major__ | \"%s\" -E -P -" % cc
+    #result = execute(
+    #    repository_ctx,
+    #    [get_bash_bin(repository_ctx), "-c", cmd],
+    #)
+    #return result.stdout.strip()
 
 # Function works only in pair with non-hermetic toolchain
 def _get_cpu_compiler(repository_ctx):
@@ -335,9 +342,11 @@ def _get_cuda_config(repository_ctx):
         cusparse_version = _cusparse_version,
         cudnn_version = _cudnn_version,
         cccl_version = _cccl_version,
-        nvcc_version = _nvcc_version,
+        npp_version = _npp_version,
+        nvcc_version = "10.0",  # _nvcc_version,
         nvdisasm_version = _nvdisasm_version,
         nvjitlink_version = _nvjitlink_version,
+        nvjpeg_version = _nvjpeg_version,
         nvml_version = _nvml_version,
         nvtx_version = _nvtx_version,
         compute_capabilities = _compute_capabilities(repository_ctx),
@@ -434,7 +443,7 @@ def _create_local_toolchains_repository(repository_ctx):
             cuda_defines["%{cuda_toolkit_path}"] = repository_ctx.attr.nvcc_binary.workspace_root
         else:
             cuda_defines["%{cuda_toolkit_path}"] = ""
-        cuda_defines["%{cuda_nvcc_files}"] = "if_cuda([\"@{nvcc_archive}//:bin\", \"@{nvcc_archive}//:nvvm\"])".format(
+        cuda_defines["%{cuda_nvcc_files}"] = "if_cuda([\"@@{nvcc_archive}//:bin\", \"@@{nvcc_archive}//:nvvm\"])".format(
             nvcc_archive = repository_ctx.attr.nvcc_binary.repo_name,
         )
     if is_clang_compiler:
