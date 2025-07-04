@@ -348,3 +348,8 @@ alias(
     name = "nvjpeg",
     actual = "@cuda_nvjpeg//:nvjpeg"
 )
+
+alias(
+  name = "nvtx",
+  actual = "@cuda_nvtx//:nvtx",
+)
