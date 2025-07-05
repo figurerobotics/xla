@@ -107,7 +107,11 @@ def GetHostCompilerOptions(argv):
     if args.iquote:
         opts += " -iquote " + " -iquote ".join(sum(args.iquote, []))
     if args.g:
-        opts += " -g" + " -g".join(sum(args.g, []))
+        # Sadly, "-g" is a valid option on its own.
+        # Try to recover options that may have been grabbed
+        g_args = ["" if "-" in g[:3] else g for g in sum(args.g, [])]
+        opts += " -g" + " -g".join(g_args)
+        opts += " " + " ".join([g for g in sum(args.g, []) if g.startswith("-")])
     if args.fno_canonical_system_headers:
         opts += " -fno-canonical-system-headers"
     if args.no_canonical_prefixes:
