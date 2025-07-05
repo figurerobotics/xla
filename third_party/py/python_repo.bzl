@@ -78,12 +78,14 @@ Please check python_init_repositories() in your WORKSPACE file.
         ctx.os.environ.get("USE_PYWRAP_RULES", False),
     )
 
-    if use_pywrap_rules:
-        print("!!!Using pywrap rules instead of directly creating .so objects!!!")  # buildifier: disable=print
+    #if use_pywrap_rules:
+    #    print("!!!Using pywrap rules instead of directly creating .so objects!!!")  # buildifier: disable=print
 
     interpreter_type = "\"default\" (provided by rules_python)"
-    if hermetic_url:
+    if hermetic_url and False:
         interpreter_type = "\"custom\" (pulled from %s)" % hermetic_url
+
+    # Disabled, see below
     print(
         """
 =============================
@@ -99,7 +101,7 @@ Requirements_lock label: "{requirements_lock_label}"
             interpreter_type = interpreter_type,
             requirements_lock_label = requirements_with_local_wheels,
         ),
-    )  # buildifier: disable=print
+    ) if False else None  # buildifier: disable=print
 
     ctx.file(
         "py_version.bzl",

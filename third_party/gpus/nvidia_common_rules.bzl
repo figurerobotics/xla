@@ -275,7 +275,8 @@ def _download_redistribution(
     file_name = _get_file_name(url)
     urls = [url] if url.endswith(".tar") else tf_mirror_urls(url)
 
-    print("Downloading and extracting {}".format(url))  # buildifier: disable=print
+    # Not quite needed:
+    # print("Downloading and extracting {}".format(url))  # buildifier: disable=print
     repository_ctx.download(
         url = urls,
         output = file_name,
