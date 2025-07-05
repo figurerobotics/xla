@@ -8,7 +8,7 @@ package(default_visibility = ["//visibility:public"])
 
 cc_library(
     name = "nvjpeg",
-    srcs = ["lib/libnvjpeg.so"],
+    srcs = ["lib/libnvjpeg.so.%{libnvjpeg_version}"],
     hdrs = glob(["include/**"]),
     includes = ["include"],
     deps = ["@local_config_cuda//cuda:cudart"],

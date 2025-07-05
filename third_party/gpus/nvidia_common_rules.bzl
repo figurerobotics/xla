@@ -76,10 +76,13 @@ def _get_lib_name_and_version(path):
     return (lib_name, lib_version)
 
 def _get_main_lib_name(repository_ctx):
-    if repository_ctx.name == "cuda_driver":
+    # repository names are fully qualified, use .endswith() as an approximation.
+    if repository_ctx.name.endswith("cuda_driver"):
         return "libcuda"
-    if repository_ctx.name == "nvidia_nvshmem":
+    if repository_ctx.name.endswith("nvidia_nvshmem"):
         return "libnvshmem_host"
+    if repository_ctx.name.endswith("cuda_npp"):
+        return "libnppc"
     else:
         return "lib{}".format(
             _get_common_lib_name(repository_ctx),

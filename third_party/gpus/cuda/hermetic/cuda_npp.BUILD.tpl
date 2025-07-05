@@ -31,10 +31,24 @@ _NPP_LIBS = {
     ],
 }
 
+_NPP_LIBS_VERSIONS = {
+    "nppc": "%{libnppc_version}",
+    "nppial": "%{libnppial_version}",
+    "nppicc": "%{libnppicc_version}",
+    "nppidei": "%{libnppidei_version}",
+    "nppif": "%{libnppif_version}",
+    "nppig": "%{libnppig_version}",
+    "nppim": "%{libnppim_version}",
+    "nppist": "%{libnppist_version}",
+    "nppisu": "%{libnppisu_version}",
+    "nppitc": "%{libnppitc_version}",
+    "npps": "%{libnpps_version}",
+}
+
 [
     cc_import(
         name = name + "_so",
-        shared_library = "lib/lib{}.so".format(name),
+        shared_library = "lib/lib{}.so.{}".format(name, _NPP_LIBS_VERSIONS[name]),
     )
     for name in _NPP_LIBS.keys()
 ]
