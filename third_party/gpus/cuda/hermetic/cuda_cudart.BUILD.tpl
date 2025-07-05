@@ -42,6 +42,8 @@ cc_library(
     %{comment}],
     %{comment}linkopts = cuda_rpath_flags("nvidia/cuda_runtime/lib") + [
         # Trying very hard to find libcuda.so.1 here
+        %{comment}"-Wl,-rpath,lib/x86_64-linux-gnu",
+        %{comment}"-Wl,-rpath,lib/",
         %{comment}"-Wl,-rpath,/usr/local/cuda/lib64",
         %{comment}"-Wl,-rpath,/usr/local/cuda-12.1/lib64",
         %{comment}"-Wl,-rpath,/usr/lib/x86_64-linux-gnu",
