@@ -475,9 +475,7 @@ REDIST_VERSIONS_TO_BUILD_TEMPLATES = {
     "cuda_nvtx": {
         "repo_name": "cuda_nvtx",
         "version_to_template": {
-            "13": "//third_party/gpus/cuda/hermetic:cuda_nvtx.BUILD.tpl",
-            "12": "//third_party/gpus/cuda/hermetic:cuda_nvtx.BUILD.tpl",
-            "11": "//third_party/gpus/cuda/hermetic:cuda_nvtx.BUILD.tpl",
+            "1": "//third_party/gpus/cuda/hermetic:cuda_nvtx.BUILD.tpl",
         },
     },
     "libnpp": {

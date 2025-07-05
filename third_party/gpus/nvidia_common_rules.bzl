@@ -79,10 +79,12 @@ def _get_main_lib_name(repository_ctx):
     # repository names are fully qualified, use .endswith() as an approximation.
     if repository_ctx.name.endswith("cuda_driver"):
         return "libcuda"
-    if repository_ctx.name.endswith("nvidia_nvshmem"):
+    elif repository_ctx.name.endswith("nvidia_nvshmem"):
         return "libnvshmem_host"
-    if repository_ctx.name.endswith("cuda_npp"):
+    elif repository_ctx.name.endswith("cuda_npp"):
         return "libnppc"
+    elif repository_ctx.name.endswith("cuda_nvtx"):
+        return "libnvtoolsext"
     else:
         return "lib{}".format(
             _get_common_lib_name(repository_ctx),
@@ -210,7 +212,7 @@ def _create_symlinks(repository_ctx, local_path, dirs):
 def _create_libcuda_symlinks(
         repository_ctx,
         lib_name_to_version_dict):
-    if repository_ctx.name == "cuda_driver":
+    if repository_ctx.name.endswith("cuda_driver"):
         key = "%{libcuda_version}"
         if key not in lib_name_to_version_dict:
             return
@@ -299,7 +301,7 @@ def _get_platform_architecture(repository_ctx):
     target_arch = get_env_var(repository_ctx, repository_ctx.attr.target_arch_env_var)
 
     # We use NVCC compiler as the host compiler.
-    if target_arch and repository_ctx.name != "cuda_nvcc":
+    if target_arch and not repository_ctx.name.endswith("cuda_nvcc"):
         if target_arch in OS_ARCH_DICT.keys():
             host_arch = target_arch
         else:

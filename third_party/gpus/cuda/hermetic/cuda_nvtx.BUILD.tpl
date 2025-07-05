@@ -2,7 +2,7 @@ licenses(["restricted"])  # NVIDIA proprietary license
 
 cc_library(
     name = "headers",
-    srcs = ["lib/libnvToolsExt.so"],
+    srcs = ["lib/libnvToolsExt.so.%{libnvtoolsext_version}"],
     %{comment}hdrs = glob([
         %{comment}"include/nvToolsExt*.h",
         %{comment}"include/nvtx3/**",
